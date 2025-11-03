@@ -24,7 +24,7 @@ export default function Home() {
 							className="object-cover"
 							priority
 							sizes="100vw"
-							quality={90}
+							quality={75}
 						/>
 						<div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
 						<div className="absolute inset-0 bg-grid-pattern opacity-[0.03]" />

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { Search, Filter, Sparkles, TrendingUp } from 'lucide-react'
+import { Search, Filter, Sparkles } from 'lucide-react'
 import { Header } from '@/components/navigation/header'
 import { Footer } from '@/components/navigation/footer'
 import { TemplateCard } from '@/components/templates/template-card'
@@ -49,15 +49,12 @@ export default function GalleryPage() {
 							className="object-cover"
 							priority
 							sizes="100vw"
-							quality={90}
+							quality={75}
 						/>
 						<div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70" />
 					</div>
 					<div className="container relative z-10 mx-auto flex h-full flex-col justify-center px-4 text-center md:px-6">
-						<div className="mb-4 inline-flex animate-fade-in items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-md">
-							<Sparkles className="h-4 w-4 text-primary" />
-							{filteredTemplates.length} Template Disponibili
-						</div>
+
 						<h1 className="mb-6 animate-slide-up font-poppins text-4xl font-bold tracking-tight text-white drop-shadow-2xl md:text-5xl lg:text-6xl">
 							Galleria Template
 						</h1>
@@ -113,7 +110,7 @@ export default function GalleryPage() {
 
 					{/* Template Grid */}
 					{filteredTemplates.length > 0 ? (
-						<div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+						<div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
 							{filteredTemplates.map((template, index) => (
 								<TemplateCard
 									key={template.id}
@@ -143,7 +140,6 @@ export default function GalleryPage() {
 							</Button>
 						</div>
 					)}
-					</div>
 				</div>
 			</main>
 			<Footer />

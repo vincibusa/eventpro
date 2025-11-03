@@ -51,54 +51,71 @@ interface TemplateCardProps {
 export function TemplateCard({ template, index = 0 }: TemplateCardProps) {
 	const categoryLabel = template.category
 		.split('-')
-		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+		.map((word) => {
+			const labelMap: Record<string, string> = {
+				corporate: 'Corporate',
+				wedding: 'Matrimoni',
+				concert: 'Concerti',
+				trade: 'Fiere',
+				show: '',
+			}
+			return labelMap[word.toLowerCase()] || word.charAt(0).toUpperCase() + word.slice(1)
+		})
+		.filter(Boolean)
 		.join(' ')
 
+	const templateImage = getTemplateImage(template)
+
 	return (
-		<Card className="group animate-fade-in overflow-hidden border-2 transition-all hover:border-primary/20 hover:shadow-lg" style={{ animationDelay: `${index * 0.1}s` }}>
-			<Link href={`/template/${template.id}`}>
-				<div className="relative aspect-[4/3] overflow-hidden bg-muted">
+		<Link href={`/template/${template.id}`} className="group block">
+			<Card className="relative h-[400px] overflow-hidden border-0 shadow-xl transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 md:h-[450px]" style={{ animationDelay: `${index * 0.05}s` }}>
+				{/* Background Image */}
+				<div className="absolute inset-0">
 					<Image
-						src={template.images[0] || '/api/placeholder/800/600'}
+						src={templateImage}
 						alt={template.name}
 						fill
-						className="object-cover transition-transform duration-300 group-hover:scale-105"
-						sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+						className="object-cover transition-transform duration-700 group-hover:scale-110"
+						sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+						quality={85}
 					/>
-					{template.popular && (
-						<div className="absolute top-4 right-4">
-							<Badge className="bg-primary text-primary-foreground">
-								Popular
+					<div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/60 to-black/90" />
+					<div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+				</div>
+
+				{/* Content Overlay */}
+				<CardContent className="relative flex h-full flex-col justify-end p-6 text-white md:p-8">
+					{/* Top Badge */}
+					<div className="mb-auto">
+						{template.popular && (
+							<Badge className="bg-primary text-primary-foreground shadow-lg backdrop-blur-sm border-0 mb-2">
+								<Sparkles className="mr-1 h-3 w-3" />
+								Popolare
 							</Badge>
-						</div>
-					)}
-				</div>
-			</Link>
-			<CardContent className="p-6">
-				<div className="mb-2 flex items-center justify-between">
-					<Badge
-						variant="secondary"
-						className="text-xs"
-					>
-						{categoryLabel}
-					</Badge>
-				</div>
-				<Link href={`/template/${template.id}`}>
-					<h3 className="mb-2 font-poppins text-lg font-semibold transition-colors group-hover:text-primary">
-						{template.name}
-					</h3>
-				</Link>
-				<p className="mb-4 line-clamp-2 text-sm text-muted-foreground">
-					{template.description}
-				</p>
-				<Button
-					asChild
-					className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-				>
-					<Link href={`/template/${template.id}`}>Customize</Link>
-				</Button>
-			</CardContent>
-		</Card>
+						)}
+						<Badge variant="secondary" className="bg-white/20 text-white backdrop-blur-sm border-white/30">
+							{categoryLabel}
+						</Badge>
+					</div>
+
+					{/* Title and Description */}
+					<div className="mb-4">
+						<h3 className="mb-3 font-poppins text-2xl font-bold leading-tight drop-shadow-lg md:text-3xl">
+							{template.name}
+						</h3>
+						<p className="line-clamp-2 text-sm leading-relaxed text-white/90 drop-shadow-md md:text-base">
+							{template.description}
+						</p>
+					</div>
+
+					{/* CTA */}
+					<div className="flex items-center gap-2 text-sm font-medium text-white transition-transform duration-300 group-hover:translate-x-2">
+						<span>Personalizza</span>
+						<ArrowRight className="h-5 w-5" />
+					</div>
+				</CardContent>
+			</Card>
+		</Link>
 	)
 }
 

@@ -80,7 +80,7 @@ export default function TemplateDetailPage({
 								className="object-cover"
 								priority
 								sizes="100vw"
-								quality={90}
+								quality={75}
 							/>
 							<div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/80" />
 						</div>
@@ -129,7 +129,7 @@ export default function TemplateDetailPage({
 													fill
 													className="object-cover"
 													sizes="(max-width: 1024px) 100vw, 50vw"
-													quality={90}
+													quality={75}
 												/>
 											</div>
 										</CarouselItem>

@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Calendar as CalendarIcon, Clock, CheckCircle2 } from 'lucide-react'
+import Image from 'next/image'
+import { Calendar as CalendarIcon, Clock, CheckCircle2, Mail, Send, Sparkles } from 'lucide-react'
 import { Header } from '@/components/navigation/header'
 import { Footer } from '@/components/navigation/footer'
 import { Button } from '@/components/ui/button'
@@ -42,30 +43,30 @@ export default function ContactPage() {
 	const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({})
 
 	const timeSlots = [
-		'9:00 AM',
-		'10:00 AM',
-		'11:00 AM',
-		'12:00 PM',
-		'1:00 PM',
-		'2:00 PM',
-		'3:00 PM',
-		'4:00 PM',
-		'5:00 PM',
+		'09:00',
+		'10:00',
+		'11:00',
+		'12:00',
+		'13:00',
+		'14:00',
+		'15:00',
+		'16:00',
+		'17:00',
 	]
 
 	const validate = (): boolean => {
 		const newErrors: Partial<Record<keyof FormData, string>> = {}
 
 		if (!formData.name.trim()) {
-			newErrors.name = 'Name is required'
+			newErrors.name = 'Il nome è obbligatorio'
 		}
 		if (!formData.email.trim()) {
-			newErrors.email = 'Email is required'
+			newErrors.email = 'L\'email è obbligatoria'
 		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-			newErrors.email = 'Please enter a valid email'
+			newErrors.email = 'Inserisci un\'email valida'
 		}
 		if (!formData.message.trim()) {
-			newErrors.message = 'Message is required'
+			newErrors.message = 'Il messaggio è obbligatorio'
 		}
 
 		setErrors(newErrors)
@@ -93,19 +94,20 @@ export default function ContactPage() {
 			<div className="flex min-h-screen flex-col">
 				<Header />
 				<main className="flex flex-1 items-center justify-center px-4 py-20">
-					<Card className="w-full max-w-md text-center">
+					<Card className="w-full max-w-md border-2 shadow-xl text-center">
 						<CardContent className="pt-6">
-							<div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-								<CheckCircle2 className="h-8 w-8 text-primary" />
+							<div className="mb-4 inline-flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-primary/10">
+								<CheckCircle2 className="h-10 w-10 text-primary" />
 							</div>
-							<h2 className="mb-2 font-poppins text-2xl font-semibold">
-								Thank You!
+							<h2 className="mb-2 font-poppins text-2xl font-bold">
+								Grazie!
 							</h2>
 							<p className="mb-6 text-muted-foreground">
-								We&apos;ve received your message and will get back to you within 24
-								hours.
+								Abbiamo ricevuto il tuo messaggio e ti risponderemo entro 24
+								ore.
 							</p>
 							<Button
+								className="group hover:scale-105 transition-all hover:shadow-lg"
 								onClick={() => {
 									setIsSubmitted(false)
 									setFormData({
@@ -120,7 +122,7 @@ export default function ContactPage() {
 									})
 								}}
 							>
-								Send Another Message
+								Invia un Altro Messaggio
 							</Button>
 						</CardContent>
 					</Card>
@@ -133,34 +135,57 @@ export default function ContactPage() {
 	return (
 		<div className="flex min-h-screen flex-col">
 			<Header />
-			<main className="flex-1 px-4 py-12 md:px-6 md:py-16">
-				<div className="container mx-auto max-w-4xl">
-					<div className="mb-12 text-center">
-						<h1 className="mb-4 font-poppins text-4xl font-bold tracking-tight md:text-5xl">
-							Get In Touch
+			<main className="flex-1">
+				{/* Hero Section */}
+				<section className="relative h-[40vh] min-h-[350px] overflow-hidden md:h-[50vh]">
+					<div className="absolute inset-0">
+						<Image
+							src="https://images.unsplash.com/photo-1556761175-b413da4b247f?w=1920&h=1080&fit=crop&q=80"
+							alt="Contatti EventPro"
+							fill
+							className="object-cover"
+							priority
+							sizes="100vw"
+							quality={75}
+						/>
+						<div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70" />
+					</div>
+					<div className="container relative z-10 mx-auto flex h-full flex-col justify-end px-4 pb-8 md:px-6 md:pb-12">
+						<div className="mb-4 inline-flex animate-fade-in items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-md">
+							<Mail className="h-4 w-4 text-primary" />
+							Siamo qui per aiutarti
+						</div>
+						<h1 className="mb-4 animate-slide-up font-poppins text-4xl font-bold tracking-tight text-white drop-shadow-2xl md:text-5xl lg:text-6xl">
+							Contattaci
 						</h1>
-						<p className="mx-auto max-w-2xl text-muted-foreground">
-							Ready to create your perfect event? Contact our team or schedule a
-							meeting to discuss your vision.
+						<p className="max-w-2xl animate-slide-up text-lg text-white/90 drop-shadow-lg md:text-xl" style={{ animationDelay: '0.1s' }}>
+							Pronto a creare il tuo evento perfetto? Contatta il nostro team o prenota un incontro per discutere la tua visione.
 						</p>
 					</div>
+				</section>
+
+				<div className="container mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-16">
 
 					<div className="grid gap-8 md:grid-cols-1 lg:grid-cols-[1fr_400px]">
 						{/* Contact Form */}
-						<Card>
+						<Card className="border-2 shadow-xl">
 							<CardHeader>
-								<CardTitle>Send us a Message</CardTitle>
-								<CardDescription>
-									Fill out the form below and we&apos;ll get back to you as soon as
-									possible
+								<div className="mb-2 flex items-center gap-2">
+									<div className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+										<Send className="h-5 w-5" />
+									</div>
+									<CardTitle className="text-2xl">Invia un Messaggio</CardTitle>
+								</div>
+								<CardDescription className="text-base">
+									Compila il modulo qui sotto e ti risponderemo il prima possibile
 								</CardDescription>
 							</CardHeader>
 							<CardContent>
 								<form onSubmit={handleSubmit} className="space-y-6">
 									<div className="grid gap-6 sm:grid-cols-2">
 										<div className="space-y-2">
-											<Label htmlFor="name">
-												Name <span className="text-destructive">*</span>
+											<Label htmlFor="name" className="text-sm font-semibold">
+												Nome <span className="text-destructive">*</span>
 											</Label>
 											<Input
 												id="name"
@@ -168,8 +193,9 @@ export default function ContactPage() {
 												onChange={(e) =>
 													setFormData({ ...formData, name: e.target.value })
 												}
-												placeholder="John Doe"
+												placeholder="Mario Rossi"
 												aria-invalid={!!errors.name}
+												className="transition-all focus:ring-2 focus:ring-primary"
 											/>
 											{errors.name && (
 												<p className="text-sm text-destructive">{errors.name}</p>
@@ -177,7 +203,7 @@ export default function ContactPage() {
 										</div>
 
 										<div className="space-y-2">
-											<Label htmlFor="email">
+											<Label htmlFor="email" className="text-sm font-semibold">
 												Email <span className="text-destructive">*</span>
 											</Label>
 											<Input
@@ -187,8 +213,9 @@ export default function ContactPage() {
 												onChange={(e) =>
 													setFormData({ ...formData, email: e.target.value })
 												}
-												placeholder="john@example.com"
+												placeholder="mario@example.com"
 												aria-invalid={!!errors.email}
+												className="transition-all focus:ring-2 focus:ring-primary"
 											/>
 											{errors.email && (
 												<p className="text-sm text-destructive">{errors.email}</p>
@@ -198,19 +225,20 @@ export default function ContactPage() {
 
 									<div className="grid gap-6 sm:grid-cols-2">
 										<div className="space-y-2">
-											<Label htmlFor="company">Company</Label>
+											<Label htmlFor="company" className="text-sm font-semibold">Azienda</Label>
 											<Input
 												id="company"
 												value={formData.company}
 												onChange={(e) =>
 													setFormData({ ...formData, company: e.target.value })
 												}
-												placeholder="Company name"
+												placeholder="Nome azienda"
+												className="transition-all focus:ring-2 focus:ring-primary"
 											/>
 										</div>
 
 										<div className="space-y-2">
-											<Label htmlFor="phone">Phone</Label>
+											<Label htmlFor="phone" className="text-sm font-semibold">Telefono</Label>
 											<Input
 												id="phone"
 												type="tel"
@@ -218,35 +246,36 @@ export default function ContactPage() {
 												onChange={(e) =>
 													setFormData({ ...formData, phone: e.target.value })
 												}
-												placeholder="+1 (555) 000-0000"
+												placeholder="+39 02 1234 5678"
+												className="transition-all focus:ring-2 focus:ring-primary"
 											/>
 										</div>
 									</div>
 
 									<div className="space-y-2">
-										<Label htmlFor="event-type">Event Type</Label>
+										<Label htmlFor="event-type" className="text-sm font-semibold">Tipo di Evento</Label>
 										<Select
 											value={formData.eventType}
 											onValueChange={(value) =>
 												setFormData({ ...formData, eventType: value })
 											}
 										>
-											<SelectTrigger>
-												<SelectValue placeholder="Select event type" />
+											<SelectTrigger className="transition-all focus:ring-2 focus:ring-primary">
+												<SelectValue placeholder="Seleziona tipo evento" />
 											</SelectTrigger>
 											<SelectContent>
-												<SelectItem value="corporate">Corporate Event</SelectItem>
-												<SelectItem value="wedding">Wedding</SelectItem>
-												<SelectItem value="concert">Concert</SelectItem>
-												<SelectItem value="trade-show">Trade Show</SelectItem>
-												<SelectItem value="other">Other</SelectItem>
+												<SelectItem value="corporate">Evento Corporate</SelectItem>
+												<SelectItem value="wedding">Matrimonio</SelectItem>
+												<SelectItem value="concert">Concerto</SelectItem>
+												<SelectItem value="trade-show">Fiera</SelectItem>
+												<SelectItem value="other">Altro</SelectItem>
 											</SelectContent>
 										</Select>
 									</div>
 
 									<div className="space-y-2">
-										<Label htmlFor="message">
-											Message <span className="text-destructive">*</span>
+										<Label htmlFor="message" className="text-sm font-semibold">
+											Messaggio <span className="text-destructive">*</span>
 										</Label>
 										<Textarea
 											id="message"
@@ -254,9 +283,10 @@ export default function ContactPage() {
 											onChange={(e) =>
 												setFormData({ ...formData, message: e.target.value })
 											}
-											placeholder="Tell us about your event..."
+											placeholder="Raccontaci del tuo evento..."
 											rows={6}
 											aria-invalid={!!errors.message}
+											className="transition-all focus:ring-2 focus:ring-primary resize-none"
 										/>
 										{errors.message && (
 											<p className="text-sm text-destructive">{errors.message}</p>
@@ -266,40 +296,55 @@ export default function ContactPage() {
 									<Button
 										type="submit"
 										size="lg"
-										className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+										className="group w-full bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-2xl hover:shadow-primary/30 transition-all hover:scale-105 disabled:hover:scale-100"
 										disabled={isSubmitting}
 									>
-										{isSubmitting ? 'Sending...' : 'Send Message'}
+										{isSubmitting ? (
+											<>
+												<Send className="mr-2 h-5 w-5 animate-pulse" />
+												Invio in corso...
+											</>
+										) : (
+											<>
+												<Send className="mr-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+												Invia Messaggio
+											</>
+										)}
 									</Button>
 								</form>
 							</CardContent>
 						</Card>
 
 						{/* Meeting Booking */}
-						<Card>
+						<Card className="border-2 shadow-xl">
 							<CardHeader>
-								<CardTitle>Schedule a Meeting</CardTitle>
-								<CardDescription>
-									Book a time to discuss your event in detail
+								<div className="mb-2 flex items-center gap-2">
+									<div className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+										<CalendarIcon className="h-5 w-5" />
+									</div>
+									<CardTitle className="text-2xl">Prenota un Incontro</CardTitle>
+								</div>
+								<CardDescription className="text-base">
+									Prenota un orario per discutere il tuo evento nei dettagli
 								</CardDescription>
 							</CardHeader>
 							<CardContent className="space-y-4">
 								<div className="space-y-2">
-									<Label>Select Date</Label>
+									<Label className="text-sm font-semibold">Seleziona Data</Label>
 									<Popover>
 										<PopoverTrigger asChild>
 											<Button
 												variant="outline"
 												className={cn(
-													'w-full justify-start text-left font-normal',
+													'w-full justify-start text-left font-normal transition-all hover:border-primary hover:bg-primary/5',
 													!formData.meetingDate && 'text-muted-foreground'
 												)}
-												aria-label="Select meeting date"
+												aria-label="Seleziona data incontro"
 											>
 												<CalendarIcon className="mr-2 h-4 w-4" aria-hidden="true" />
 												{formData.meetingDate
 													? format(formData.meetingDate, 'PPP')
-													: 'Pick a date'}
+													: 'Scegli una data'}
 											</Button>
 										</PopoverTrigger>
 										<PopoverContent className="w-auto p-0" align="start">
@@ -317,8 +362,8 @@ export default function ContactPage() {
 
 								{formData.meetingDate && (
 									<div className="space-y-2">
-										<Label>Select Time</Label>
-										<div className="grid grid-cols-2 gap-2">
+										<Label className="text-sm font-semibold">Seleziona Orario</Label>
+										<div className="grid grid-cols-3 gap-2">
 											{timeSlots.map((time) => (
 												<Button
 													key={time}
@@ -332,11 +377,11 @@ export default function ContactPage() {
 													onClick={() =>
 														setFormData({ ...formData, meetingTime: time })
 													}
-													className={
+													className={`transition-all hover:scale-105 ${
 														formData.meetingTime === time
-															? 'bg-primary text-primary-foreground'
-															: ''
-													}
+															? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20'
+															: 'hover:border-primary'
+													}`}
 												>
 													{time}
 												</Button>
@@ -347,16 +392,16 @@ export default function ContactPage() {
 
 								{formData.meetingDate && formData.meetingTime && (
 									<Button
-										className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90"
+										className="group w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 hover:shadow-xl transition-all hover:scale-105"
 										onClick={() => {
 											// In a real app, this would integrate with a calendar service
 											alert(
-												`Meeting scheduled for ${format(formData.meetingDate!, 'PPP')} at ${formData.meetingTime}`
+												`Incontro programmato per ${format(formData.meetingDate!, 'PPP')} alle ${formData.meetingTime}`
 											)
 										}}
 									>
-										<Clock className="mr-2 h-4 w-4" />
-										Confirm Meeting
+										<Clock className="mr-2 h-4 w-4 transition-transform group-hover:rotate-45" />
+										Conferma Incontro
 									</Button>
 								)}
 							</CardContent>
